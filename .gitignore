@@ -1,0 +1,19 @@
+
+# Base de datos embebida lo voy a añadir cuando ya tenga toda la estructura armada
+/database/asistencia.db
+
+# Directorios de dependencias y build
+/backend/target/
+/frontend/node_modules/
+
+# Configuraciones de IDE
+.vscode/
+.idea/
+
+# Archivos de log y temporales
+*.log
+*.tmp
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
