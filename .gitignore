@@ -1,14 +1,14 @@
 
 # Base de datos embebida lo voy a añadir cuando ya tenga toda la estructura armada
 /database/asistencia.db
-
+/scripts/db_schema.sql
+/scripts/init_db_schema.sh
 # Directorios de dependencias y build
 /backend/target/
 /frontend/node_modules/
 
 # Configuraciones de IDE
 .vscode/
-.idea/
 
 # Archivos de log y temporales
 *.log
