@@ -19,6 +19,7 @@
   <packaging>jar</packaging>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
     <spring-cloud.version>2021.0.9</spring-cloud.version>
   </properties>
@@ -52,6 +53,12 @@
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.41.2.2</version>
+    </dependency>
+   
+    <dependency>
+      <groupId>com.github.gwenn</groupId>
+      <artifactId>sqlite-dialect</artifactId>
+      <version>0.2.0</version>
     </dependency>
 
 
