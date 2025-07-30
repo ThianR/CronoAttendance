@@ -1,0 +1,37 @@
+package com.cronoattendance.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "datos_biometricos_empleados")
+public class DatosBiometricosEmpleados {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "id_empleado")
+    private Empleados empleado;
+
+    @Lob
+    @Column(name = "template_data", nullable = false)
+    private byte[] templateData;
+
+    @Column(name = "updated_at", nullable = false)
+    private String updatedAt;
+}
