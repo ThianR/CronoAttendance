@@ -1,6 +1,6 @@
 package com.cronoattendance.entities;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,15 +17,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.cronoattendance.entities.enums.Estado;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "horarios", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empresa", "descripcion" }))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "horarios", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empresa", "descripcion" }))
 public class Horarios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +46,19 @@ public class Horarios {
     @Column(name = "fin_jornada", nullable = false)
     private String finJornada;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estado estado;
 
-    @OneToMany(mappedBy = "horarios", cascade = CascadeType.ALL)
-    private List<SegmentosHorarios> segmentosHorarios = new ArrayList<>();
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
 
-    @OneToMany(mappedBy = "horarios", cascade = CascadeType.ALL)
-    private List<HorariosEmpleados> horariosEmpleados = new ArrayList<>();
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 
-    enum Estado {
-        Activo, Inactivo
-    }
+    @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL)
+    private List<SegmentosHorarios> ListSegmentosHorario;
+
+    @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL)
+    private List<HorariosEmpleados> ListHorariosEmpleados;
 }

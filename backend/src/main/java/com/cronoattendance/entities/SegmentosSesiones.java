@@ -1,5 +1,8 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,17 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.cronoattendance.entities.SegmentosHorarios.TipoSegmento;
+import com.cronoattendance.entities.enums.TipoSegmento;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "segmentos_sesiones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "segmentos_sesiones")
 public class SegmentosSesiones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +32,24 @@ public class SegmentosSesiones {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_sesion")
-    private Sesiones sesiones;
+    private Sesiones sesion;
 
     @Column(nullable = false)
-    private String fecha;
+    private LocalDate fecha;
 
     @Column(nullable = false)
-    private String inicio;
+    private LocalDateTime inicio;
 
     @Column(nullable = false)
-    private String fin;
+    private LocalDateTime fin;
 
-    @Column(name = "tipo_segmento")
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_segmento")
     private TipoSegmento tipoSegmento;
+
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

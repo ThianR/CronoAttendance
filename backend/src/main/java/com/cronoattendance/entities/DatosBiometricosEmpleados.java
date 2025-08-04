@@ -1,5 +1,7 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +16,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "datos_biometricos_empleados")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "datos_biometricos_empleados")
 public class DatosBiometricosEmpleados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,9 @@ public class DatosBiometricosEmpleados {
     @Column(name = "template_data", nullable = false)
     private byte[] templateData;
 
-    @Column(name = "updated_at", nullable = false)
-    private String updatedAt;
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

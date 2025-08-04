@@ -1,5 +1,7 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,15 +14,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.cronoattendance.entities.enums.TipoSegmento;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "segmentos_horarios", uniqueConstraints = @UniqueConstraint(columnNames = { "id_horario", "segmento" }))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "segmentos_horarios", uniqueConstraints = @UniqueConstraint(columnNames = { "id_horario", "segmento" }))
 public class SegmentosHorarios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +34,11 @@ public class SegmentosHorarios {
     @JoinColumn(name = "id_horario")
     private Horarios horario;
 
+    @Column(nullable = false)
     private Integer segmento;
 
-    @Column(name = "tipo_segmento", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_segmento", nullable = false)
     private TipoSegmento tipoSegmento;
 
     @Column(nullable = false)
@@ -42,8 +47,9 @@ public class SegmentosHorarios {
     @Column(nullable = false)
     private String fin;
 
-    // Tipos de segmento
-    enum TipoSegmento {
-        TRABAJO, DESCANSO
-    }
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

@@ -1,6 +1,6 @@
 package com.cronoattendance.entities;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,11 +18,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "sesiones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "sesiones")
 public class Sesiones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +33,17 @@ public class Sesiones {
     private Empleados empleado;
 
     @Column(nullable = false)
-    private String inicio;
+    private LocalDateTime inicio;
 
     @Column(nullable = false)
-    private String fin;
+    private LocalDateTime fin;
+
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 
     @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL)
-    private List<SegmentosSesiones> segmentosSesiones = new ArrayList<>();
+    private List<SegmentosSesiones> ListSegmentos;
 }

@@ -1,5 +1,7 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,15 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.cronoattendance.entities.enums.EstadoPermiso;
+import com.cronoattendance.entities.enums.TipoPermiso;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "asistencias_permisos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "asistencias_permisos")
 public class AsistenciasPermisos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,36 +34,33 @@ public class AsistenciasPermisos {
     @JoinColumn(name = "id_empleado")
     private Empleados empleado;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PermisoTipo tipo;
+    @Column(nullable = false)
+    private TipoPermiso tipo;
 
     @Column(nullable = false)
-    private String inicio;
+    private LocalDateTime inicio;
 
     @Column(nullable = false)
-    private String fin;
+    private LocalDateTime fin;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PermisoEstado estado;
+    @Column(nullable = false)
+    private EstadoPermiso estado;
 
     @Column(name = "fecha_solicitud", nullable = false)
-    private String fechaSolicitud;
+    private LocalDateTime fechaSolicitud;
 
     @Column(name = "fecha_aprobacion")
-    private String fechaAprobacion;
+    private LocalDateTime fechaAprobacion;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado_aprobador")
-    private Empleados empleadoAprobador;
+    private Empleados aprobador;
 
-    // Permiso enums
-    enum PermisoTipo {
-        VACACION, REPOSO, SALIDA_ANTICIPADA, ENTRADA_TARDIA, OTRO
-    }
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
 
-    enum PermisoEstado {
-        PENDIENTE, APROBADO, RECHAZADO
-    }
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

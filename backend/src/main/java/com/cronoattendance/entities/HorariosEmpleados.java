@@ -1,5 +1,8 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +17,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "horarios_empleados", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empleado",
+        "ACTIVO_desde" }))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "horarios_empleados", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empleado",
-        "activo_desde" }))
 public class HorariosEmpleados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +36,15 @@ public class HorariosEmpleados {
     @JoinColumn(name = "id_horario")
     private Horarios horario;
 
-    @Column(name = "activo_desde", nullable = false)
-    private String activoDesde;
+    @Column(name = "ACTIVO_DESDE", nullable = false)
+    private LocalDate activoDesde;
 
-    @Column(name = "activo_hasta")
-    private String activoHasta;
+    @Column(name = "ACTIVO_HASTA")
+    private LocalDate activoHasta;
+
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

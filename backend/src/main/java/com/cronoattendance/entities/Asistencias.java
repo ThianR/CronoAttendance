@@ -1,5 +1,7 @@
 package com.cronoattendance.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,15 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.cronoattendance.entities.enums.TipoAsistencia;
+import com.cronoattendance.entities.enums.TipoMarcacion;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "asistencias")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "asistencias")
 public class Asistencias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,23 +34,20 @@ public class Asistencias {
     @JoinColumn(name = "id_empleado")
     private Empleados empleado;
 
-    @Column(nullable = false)
-    private String fechaHora;
+    @Column(name = "fecha_hora", nullable = false)
+    private LocalDateTime fechaHora;
 
-    @Column(name = "tipo_asistencia", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_asistencia", nullable = false)
     private TipoAsistencia tipoAsistencia;
 
-    @Column(name = "tipo_marcacion", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_marcacion", nullable = false)
     private TipoMarcacion tipoMarcacion;
 
-    // Tipos de asistencia y marcación
-    enum TipoAsistencia {
-        ENTRADA, SALIDA
-    }
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
 
-    enum TipoMarcacion {
-        FACIAL, MANUAL
-    }
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 }

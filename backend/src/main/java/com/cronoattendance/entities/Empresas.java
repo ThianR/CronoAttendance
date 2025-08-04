@@ -1,6 +1,6 @@
 package com.cronoattendance.entities;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,15 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.cronoattendance.entities.enums.Estado;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "empresas")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "empresas")
 public class Empresas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,18 +36,19 @@ public class Empresas {
     @Column(nullable = false)
     private String descripcion;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estado estado;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-    private List<Departamentos> departamentos = new ArrayList<>();
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-    private List<Horarios> horarios = new ArrayList<>();
+    private List<Departamentos> ListDepartamentos;
 
-    // Estado de registros comunes
-    enum Estado {
-        Activo, Inactivo
-    }
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+    private List<Horarios> ListHorarios;
 }

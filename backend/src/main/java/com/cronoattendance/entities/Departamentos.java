@@ -1,6 +1,6 @@
 package com.cronoattendance.entities;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,15 +17,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.cronoattendance.entities.enums.Estado;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "departamentos", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empresa", "codigo" }))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "departamentos", uniqueConstraints = @UniqueConstraint(columnNames = { "id_empresa", "codigo" }))
 public class Departamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,15 +43,16 @@ public class Departamentos {
     @Column(nullable = false)
     private String descripcion;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estado estado;
 
-    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
-    private List<Empleados> empleados = new ArrayList<>();
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDateTime fechaAlta;
 
-    // Estado de registros comunes
-    enum Estado {
-        Activo, Inactivo
-    }
+    @Column(name = "fecha_mod")
+    private LocalDateTime fechaMod;
+
+    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
+    private List<Empleados> Listempleados;
 }
