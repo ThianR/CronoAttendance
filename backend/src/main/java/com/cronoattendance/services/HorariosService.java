@@ -1,0 +1,35 @@
+package com.cronoattendance.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cronoattendance.entities.Horarios;
+import com.cronoattendance.repositories.HorariosRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class HorariosService {
+    private final HorariosRepository repo;
+
+    public List<Horarios> findAll() {
+        return repo.findAll();
+    }
+
+    public Horarios findById(Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public Horarios save(Horarios h) {
+        return repo.save(h);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
+}
