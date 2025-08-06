@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class DatosBiometricosEmpleados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "id_empleado")

@@ -6,30 +6,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cronoattendance.entities.Empresas;
-import com.cronoattendance.repositories.EmpresaRepository;
+import com.cronoattendance.repositories.EmpresasRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class EmpresasService {
-    private final EmpresaRepository empresaRepo;
+    private final EmpresasRepository EmpresasRepo;
 
     public List<Empresas> findAll() {
-        return empresaRepo.findAll();
+        return EmpresasRepo.findAll();
     }
 
-    public Empresas findById(Long id) {
-        return empresaRepo.findById(id).orElseThrow();
+    public Empresas findById(Integer id) {
+        return EmpresasRepo.findById(id).orElseThrow();
     }
 
     @Transactional
     public Empresas save(Empresas e) {
-        return empresaRepo.save(e);
+        return EmpresasRepo.save(e);
     }
 
     @Transactional
-    public void delete(Long id) {
-        empresaRepo.deleteById(id);
+    public void delete(Integer id) {
+        EmpresasRepo.deleteById(id);
     }
 }

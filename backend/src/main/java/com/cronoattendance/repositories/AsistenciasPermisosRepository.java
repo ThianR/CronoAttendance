@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cronoattendance.entities.AsistenciasPermisos;
 
 @Repository
-public interface AsistenciasPermisosRepository extends JpaRepository<AsistenciasPermisos, Long> {
+public interface AsistenciasPermisosRepository extends JpaRepository<AsistenciasPermisos, Integer> {
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.cronoattendance.entities.Asistencias;
 
 @Repository
-public interface AsistenciasRepository extends JpaRepository<Asistencias, Long> {
+public interface AsistenciasRepository extends JpaRepository<Asistencias, Integer> {
     /**
      * Recupera todas las marcaciones de un empleado, ordenadas por fechaHora
      * ascendente.
      */
     @Query("SELECT a FROM Asistencias a WHERE a.empleado.id = :idEmpleado ORDER BY a.fechaHora")
-    List<Asistencias> findByIdEmpleadoOrderByFechaHora(@Param("idEmpleado") Long idEmpleado);
+    List<Asistencias> findByIdEmpleadoOrderByFechaHora(@Param("idEmpleado") Integer idEmpleado);
 }

@@ -20,7 +20,7 @@ public class HorariosEmpleadosService {
         return repo.findAll();
     }
 
-    public HorariosEmpleados findById(Long id) {
+    public HorariosEmpleados findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -30,7 +30,7 @@ public class HorariosEmpleadosService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

@@ -19,7 +19,7 @@ public class SegmentosSesionesService {
         return repo.findAll();
     }
 
-    public SegmentosSesiones findById(Long id) {
+    public SegmentosSesiones findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class SegmentosSesionesService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

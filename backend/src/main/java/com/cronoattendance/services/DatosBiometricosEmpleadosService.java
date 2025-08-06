@@ -19,7 +19,7 @@ public class DatosBiometricosEmpleadosService {
         return repo.findAll();
     }
 
-    public DatosBiometricosEmpleados findById(Long id) {
+    public DatosBiometricosEmpleados findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class DatosBiometricosEmpleadosService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

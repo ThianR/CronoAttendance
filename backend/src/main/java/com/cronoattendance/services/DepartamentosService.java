@@ -19,7 +19,7 @@ public class DepartamentosService {
         return repo.findAll();
     }
 
-    public Departamentos findById(Long id) {
+    public Departamentos findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class DepartamentosService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

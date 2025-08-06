@@ -25,11 +25,29 @@ public class AsistenciasService {
     private final SesionesRepository sesionesRepo;
     private final SegmentosSesionesRepository segmentosRepo;
 
+    public List<Asistencias> findAll() {
+        return asistenciaRepo.findAll();
+    }
+
+    public Asistencias findById(Integer id) {
+        return asistenciaRepo.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public Asistencias save(Asistencias p) {
+        return asistenciaRepo.save(p);
+    }
+
+    @Transactional
+    public void delete(Integer id) {
+        asistenciaRepo.deleteById(id);
+    }
+
     /**
      * Empareja marcaciones de un empleado y genera sesiones + segmentos diarios.
      */
     @Transactional
-    public void procesarMarcaciones(Long idEmpleado) {
+    public void procesarMarcaciones(Integer idEmpleado) {
         // 1) Obtener todas las marcaciones ordenadas
         List<Asistencias> marc = asistenciaRepo
                 .findByIdEmpleadoOrderByFechaHora(idEmpleado);

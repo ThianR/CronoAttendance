@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import com.cronoattendance.entities.SegmentosSesiones;
 
 @Repository
-public interface SegmentosSesionesRepository extends JpaRepository<SegmentosSesiones, Long> {
+public interface SegmentosSesionesRepository extends JpaRepository<SegmentosSesiones, Integer> {
 }

@@ -19,7 +19,7 @@ public class AsistenciasPermisosService {
         return repo.findAll();
     }
 
-    public AsistenciasPermisos findById(Long id) {
+    public AsistenciasPermisos findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class AsistenciasPermisosService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

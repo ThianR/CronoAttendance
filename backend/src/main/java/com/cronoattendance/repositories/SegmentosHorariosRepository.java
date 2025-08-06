@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cronoattendance.entities.SegmentosHorarios;
 
 @Repository
-public interface SegmentosHorariosRepository extends JpaRepository<SegmentosHorarios, Long> {
+public interface SegmentosHorariosRepository extends JpaRepository<SegmentosHorarios, Integer> {
 }

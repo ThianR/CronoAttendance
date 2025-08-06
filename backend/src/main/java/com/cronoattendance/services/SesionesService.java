@@ -19,7 +19,7 @@ public class SesionesService {
         return repo.findAll();
     }
 
-    public Sesiones findById(Long id) {
+    public Sesiones findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class SesionesService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

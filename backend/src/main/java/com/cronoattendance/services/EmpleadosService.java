@@ -19,7 +19,7 @@ public class EmpleadosService {
         return repo.findAll();
     }
 
-    public Empleados findById(Long id) {
+    public Empleados findById(Integer id) {
         return repo.findById(id).orElseThrow();
     }
 
@@ -29,7 +29,7 @@ public class EmpleadosService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repo.deleteById(id);
     }
 }

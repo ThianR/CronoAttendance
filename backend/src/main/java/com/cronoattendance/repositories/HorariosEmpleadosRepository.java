@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cronoattendance.entities.HorariosEmpleados;
 
 @Repository
-public interface HorariosEmpleadosRepository extends JpaRepository<HorariosEmpleados, Long> {
+public interface HorariosEmpleadosRepository extends JpaRepository<HorariosEmpleados, Integer> {
 }
