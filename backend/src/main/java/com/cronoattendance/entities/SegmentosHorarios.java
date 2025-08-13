@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -52,4 +54,15 @@ public class SegmentosHorarios {
 
     @Column(name = "fecha_mod")
     private LocalDateTime fechaMod;
+
+    @PrePersist
+    void prePersist() {
+        if (fechaAlta == null)
+            fechaAlta = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        this.fechaMod = java.time.LocalDateTime.now();
+    }
 }

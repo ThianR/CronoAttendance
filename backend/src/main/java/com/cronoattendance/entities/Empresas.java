@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.cronoattendance.entities.enums.Estado;
@@ -51,4 +53,17 @@ public class Empresas {
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Horarios> ListHorarios;
+
+    @PrePersist
+    void prePersist() {
+        if (estado == null)
+            estado = Estado.ACTIVO;
+        if (fechaAlta == null)
+            fechaAlta = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        this.fechaMod = java.time.LocalDateTime.now();
+    }
 }

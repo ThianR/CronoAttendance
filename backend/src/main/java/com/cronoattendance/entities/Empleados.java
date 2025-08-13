@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.cronoattendance.entities.enums.Estado;
@@ -77,4 +79,17 @@ public class Empleados {
 
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
     private List<Sesiones> sesiones;
+
+    @PrePersist
+    void prePersist() {
+        if (estado == null)
+            estado = Estado.ACTIVO;
+        if (fechaAlta == null)
+            fechaAlta = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        this.fechaMod = java.time.LocalDateTime.now();
+    }
 }

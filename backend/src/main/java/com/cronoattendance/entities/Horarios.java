@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -61,4 +63,17 @@ public class Horarios {
 
     @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL)
     private List<HorariosEmpleados> ListHorariosEmpleados;
+
+    @PrePersist
+    void prePersist() {
+        if (estado == null)
+            estado = Estado.ACTIVO;
+        if (fechaAlta == null)
+            fechaAlta = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        this.fechaMod = java.time.LocalDateTime.now();
+    }
 }
