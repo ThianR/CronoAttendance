@@ -44,7 +44,7 @@ public class HorariosEmpleados {
     @Column(name = "ACTIVO_HASTA")
     private LocalDate activoHasta;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

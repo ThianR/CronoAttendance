@@ -40,7 +40,7 @@ public class Sesiones {
     @Column(nullable = false)
     private LocalDateTime fin;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

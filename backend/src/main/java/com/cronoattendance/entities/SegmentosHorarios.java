@@ -49,7 +49,7 @@ public class SegmentosHorarios {
     @Column(nullable = false)
     private String fin;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

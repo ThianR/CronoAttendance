@@ -52,7 +52,7 @@ public class Horarios {
     @Column(nullable = false)
     private Estado estado;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

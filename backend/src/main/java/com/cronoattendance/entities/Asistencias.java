@@ -47,7 +47,7 @@ public class Asistencias {
     @Column(name = "tipo_marcacion", nullable = false)
     private TipoMarcacion tipoMarcacion;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

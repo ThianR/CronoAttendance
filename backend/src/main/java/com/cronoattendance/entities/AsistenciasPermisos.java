@@ -60,7 +60,7 @@ public class AsistenciasPermisos {
     @JoinColumn(name = "id_empleado_aprobador")
     private Empleados aprobador;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

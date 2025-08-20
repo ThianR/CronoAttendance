@@ -36,7 +36,7 @@ public class DatosBiometricosEmpleados {
     @Column(name = "template_data", nullable = false)
     private byte[] templateData;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")

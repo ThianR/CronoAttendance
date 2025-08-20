@@ -49,7 +49,7 @@ public class SegmentosSesiones {
     @Column(name = "tipo_segmento")
     private TipoSegmento tipoSegmento;
 
-    @Column(name = "fecha_alta", nullable = false)
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
     private LocalDateTime fechaAlta;
 
     @Column(name = "fecha_mod")
