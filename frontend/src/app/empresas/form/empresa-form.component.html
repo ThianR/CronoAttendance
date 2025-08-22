@@ -1,0 +1,52 @@
+<h2>@if (form.value.id) { Modificar Empresa } @else { Nueva Empresa }</h2>
+
+<form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+  <div>
+    <label for="codigo">Código</label>
+    <input id="codigo" type="text" formControlName="codigo" />
+    @if (f.codigo.touched && f.codigo.invalid) {
+      <small class="error">@if (f.codigo.errors?.['required']) { Requerido } @if (f.codigo.errors?.['maxlength']) { Máx. 20 caracteres }</small>
+    }
+  </div>
+
+  <div>
+    <label for="descripcion">Descripción</label>
+    <input id="descripcion" type="text" formControlName="descripcion" />
+    @if (f.descripcion.touched && f.descripcion.invalid) {
+      <small class="error">@if (f.descripcion.errors?.['required']) { Requerido } @if (f.descripcion.errors?.['maxlength']) { Máx. 120 caracteres }</small>
+    }
+  </div>
+
+  <div>
+    <label for="estado">Estado</label>
+    <select id="estado" formControlName="estado">
+      <option value="ACTIVO">ACTIVO</option>
+      <option value="INACTIVO">INACTIVO</option>
+    </select>
+  </div>
+
+  <div class="acciones">
+    <button type="submit" [disabled]="form.invalid || cargando">
+      @if (cargando) { Guardando… } @else { Guardar }
+    </button>
+    <button type="button" (click)="cancelar()">Cancelar</button>
+  </div>
+<!-- Metadatos del entity (solo lectura) -->
+@if (f.fechaAlta?.value || f.fechaMod?.value) {
+  <div class="form-meta">
+    @if (f.fechaAlta?.value) {
+      <div class="meta-item">
+        <span class="dot"></span>
+        Fecha de Alta: {{ f.fechaAlta.value | date:'dd/MM/yyyy HH:mm:ss' }}
+      </div>
+    }
+    @if (f.fechaMod?.value) {
+      <div class="meta-item">
+        <span class="dot"></span>
+        Fecha de Ult. Modificación: {{ f.fechaMod.value | date:'dd/MM/yyyy HH:mm:ss' }}
+      </div>
+    }
+  </div>
+}
+
+</form>

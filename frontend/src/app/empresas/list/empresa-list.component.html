@@ -1,0 +1,24 @@
+<div class="mb">
+  <a routerLink="/empresas/nuevo">+ Nueva Empresa</a>
+</div>
+
+<table>
+  <thead>
+    <tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    @for (e of empresas; track e.id) {
+      <tr>
+        <td>{{ e.codigo }}</td>
+        <td>{{ e.descripcion }}</td>
+        <td>{{ e.estado }}</td>
+        <td>
+          <a [routerLink]="['/empresas/editar', e.id]">Editar</a>
+          <button (click)="borrar(e.id)">Borrar</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td colspan="4">Sin empresas</td></tr>
+    }
+  </tbody>
+</table>
