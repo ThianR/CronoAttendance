@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Empresa } from '../../models/empresa';
 import { EmpresaService } from '../../services/empresa.service';
+import { UppercaseDirective } from '../../shared/directives/ uppercase.directive';
 
 @Component({
   selector: 'app-empresa-form',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe, UppercaseDirective],
   templateUrl: './empresa-form.component.html',
 })
 export class EmpresaFormComponent implements OnInit {
@@ -64,16 +65,24 @@ export class EmpresaFormComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    // evitar edición del código seguridad extra
+
+    // Evitar edición del código (seguridad extra en modo editar)
     if (this.form.value.id) {
       this.form.get('codigo')?.disable();
     }
 
-    const empresa = this.form.value as Empresa;
-    const req = empresa.id
-      ? this.svc.update(empresa)
-      : this.svc.create(empresa);
     this.cargando = true;
+
+    // Incluye controles deshabilitados (p. ej., 'codigo' cuando está deshabilitado)
+    const raw = this.form.getRawValue();
+
+    // Excluir metadatos de la petición
+    const { fechaAlta, fechaMod, ...empresa } = raw as any;
+
+    const req = empresa.id
+      ? this.svc.update(empresa as Empresa)
+      : this.svc.create(empresa as Empresa);
+
     req.subscribe({
       next: () => this.router.navigateByUrl('/empresas'),
       error: () => (this.cargando = false),

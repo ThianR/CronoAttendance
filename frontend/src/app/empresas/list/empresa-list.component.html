@@ -1,24 +1,96 @@
-<div class="mb">
-  <a routerLink="/empresas/nuevo">+ Nueva Empresa</a>
+<div class="toolbar">
+  <div class="title">Empresas</div>
+  <button class="btn primary" (click)="create()">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 11V6a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 1 1 0-2h5z"/></svg>
+    Nuevo
+  </button>
 </div>
 
-<table>
-  <thead>
-    <tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Acciones</th></tr>
-  </thead>
-  <tbody>
-    @for (e of empresas; track e.id) {
-      <tr>
-        <td>{{ e.codigo }}</td>
-        <td>{{ e.descripcion }}</td>
-        <td>{{ e.estado }}</td>
-        <td>
-          <a [routerLink]="['/empresas/editar', e.id]">Editar</a>
-          <button (click)="borrar(e.id)">Borrar</button>
-        </td>
+<div class="table-wrap">
+  <table class="datatable">
+    <thead>
+      <tr class="head">
+        <th class="col-id">#</th>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th class="col-estado">Estado</th>
+        <th class="col-fecha">Fecha alta</th>
+        <th class="col-actions">Acciones</th>
       </tr>
-    } @empty {
-      <tr><td colspan="4">Sin empresas</td></tr>
-    }
-  </tbody>
-</table>
+      <!-- fila de filtros -->
+      <tr class="filters">
+        <th></th>
+        <th>
+          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.codigo" />
+        </th>
+        <th>
+          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.descripcion" />
+        </th>
+        <th>
+          <select [formControl]="filtroForm.controls.estado">
+            <option value="">Todos</option>
+            <option value="ACTIVO">ACTIVO</option>
+            <option value="INACTIVO">INACTIVO</option>
+          </select>
+        </th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (e of pageData(); track e.id) {
+        <tr>
+          <td class="col-id">{{ e.id }}</td>
+          <td>{{ e.codigo }}</td>
+          <td class="text-ellipsis" title="{{ e.descripcion }}">{{ e.descripcion }}</td>
+          <td class="col-estado">
+            <span class="status" [class.ok]="e.estado==='ACTIVO'" [class.bad]="e.estado==='INACTIVO'">
+              <span class="dot"></span> {{ e.estado }}
+            </span>
+          </td>
+          <td class="col-fecha">{{ e.fechaAlta || '—' }}</td>
+          <td class="col-actions">
+            <button class="icon" title="Editar" (click)="edit(e)" aria-label="Editar">
+              <!-- lápiz -->
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92L14.06 8.52l.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
+              </svg>
+            </button>
+            <button class="icon danger" title="Borrar" (click)="remove(e)" aria-label="Borrar">
+              <!-- basurero -->
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 7h12l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7zm9-3h-1.5l-.5-1h-4l-.5 1H7v2h10V4z"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="empty">Sin resultados</td></tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- footer de paginación -->
+<div class="pager">
+  <div class="count">
+    Registros: {{ filtradas().length }}
+  </div>
+  <div class="controls">
+    <button class="btn" (click)="goTo(1)" [disabled]="page()===1">«</button>
+    <button class="btn" (click)="prev()" [disabled]="page()===1">‹</button>
+    <span>Pág. {{ page() }} / {{ totalPages() }}</span>
+    <button class="btn" (click)="next()" [disabled]="page()===totalPages()">›</button>
+    <button class="btn" (click)="goTo(totalPages())" [disabled]="page()===totalPages()">»</button>
+
+    <label class="ps">
+      <span>Filas:</span>
+      <select [ngModel]="pageSize()" (ngModelChange)="pageSize.set($event); goTo(1)">
+        @for (opt of pageSizeOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+    </label>
+  </div>
+</div>

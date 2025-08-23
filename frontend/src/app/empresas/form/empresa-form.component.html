@@ -3,7 +3,7 @@
 <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
   <div>
     <label for="codigo">Código</label>
-    <input id="codigo" type="text" formControlName="codigo" />
+    <input id="codigo" type="text" formControlName="codigo" placeholder="Ingrese un Codigo" />
     @if (f.codigo.touched && f.codigo.invalid) {
       <small class="error">@if (f.codigo.errors?.['required']) { Requerido } @if (f.codigo.errors?.['maxlength']) { Máx. 20 caracteres }</small>
     }
@@ -11,7 +11,7 @@
 
   <div>
     <label for="descripcion">Descripción</label>
-    <input id="descripcion" type="text" formControlName="descripcion" />
+    <input id="descripcion" type="text" formControlName="descripcion" placeholder="Ingrese la Descripcion" appUppercase/>
     @if (f.descripcion.touched && f.descripcion.invalid) {
       <small class="error">@if (f.descripcion.errors?.['required']) { Requerido } @if (f.descripcion.errors?.['maxlength']) { Máx. 120 caracteres }</small>
     }
@@ -32,15 +32,15 @@
     <button type="button" (click)="cancelar()">Cancelar</button>
   </div>
 <!-- Metadatos del entity (solo lectura) -->
-@if (f.fechaAlta?.value || f.fechaMod?.value) {
+@if (f.fechaAlta.value || f.fechaMod.value) {
   <div class="form-meta">
-    @if (f.fechaAlta?.value) {
+    @if (f.fechaAlta.value) {
       <div class="meta-item">
         <span class="dot"></span>
         Fecha de Alta: {{ f.fechaAlta.value | date:'dd/MM/yyyy HH:mm:ss' }}
       </div>
     }
-    @if (f.fechaMod?.value) {
+    @if (f.fechaMod.value) {
       <div class="meta-item">
         <span class="dot"></span>
         Fecha de Ult. Modificación: {{ f.fechaMod.value | date:'dd/MM/yyyy HH:mm:ss' }}
