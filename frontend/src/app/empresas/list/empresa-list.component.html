@@ -1,9 +1,18 @@
 <div class="toolbar">
   <div class="title">Empresas</div>
-  <button class="btn primary" (click)="create()">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 11V6a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 1 1 0-2h5z"/></svg>
-    Nuevo
-  </button>
+
+  <div class="actions">
+    <button class="btn ghost" (click)="exportCSV(false)" title="Exportar CSV (lista filtrada)">CSV</button>
+    <button class="btn ghost" (click)="exportExcel(false)" title="Exportar Excel (lista filtrada)">Excel</button>
+    <!-- Si quieres solo la página, usa true -->
+    <!-- <button class="btn ghost" (click)="exportCSV(true)">CSV (página)</button> -->
+    <!-- <button class="btn ghost" (click)="exportExcel(true)">Excel (página)</button> -->
+
+    <button class="btn primary" (click)="create()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 11V6a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 1 1 0-2h5z"/></svg>
+      Nuevo
+    </button>
+  </div>
 </div>
 
 <div class="table-wrap">

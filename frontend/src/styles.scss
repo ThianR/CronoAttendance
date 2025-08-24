@@ -14,6 +14,19 @@ $app-bg:  #f3f4f6;
 $radius-card: 20px;
 $radius-input: 14px;
 
+.toolbar {
+  .actions { display: flex; gap: .5rem; align-items: center; }
+  .btn.ghost {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: #111827;
+    border-radius: 999px;
+    padding: .5rem .85rem;
+    cursor: pointer;
+  }
+  .btn.ghost:hover { box-shadow: 0 0 0 3px rgba(0,0,0,.06); }
+}
+
 /* Vista */
 :host {
   display: block;

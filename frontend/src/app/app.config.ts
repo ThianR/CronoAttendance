@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
 import {
   provideClientHydration,
   withEventReplay,
@@ -14,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     //provideBrowserGlobalErrorListeners(),
     //provideZonelessChangeDetection(),
     provideClientHydration(withEventReplay()),
+    { provide: LOCALE_ID, useValue: 'es-ES' }, // <-- clave
   ],
 };
