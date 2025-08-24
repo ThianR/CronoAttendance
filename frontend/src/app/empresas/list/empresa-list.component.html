@@ -10,7 +10,6 @@
   <table class="datatable">
     <thead>
       <tr class="head">
-        <th class="col-id">#</th>
         <th>Código</th>
         <th>Descripción</th>
         <th class="col-estado">Estado</th>
@@ -18,8 +17,7 @@
         <th class="col-actions">Acciones</th>
       </tr>
       <!-- fila de filtros -->
-      <tr class="filters">
-        <th></th>
+      <tr class="filters">        
         <th>
           <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.codigo" />
         </th>
@@ -40,8 +38,7 @@
 
     <tbody>
       @for (e of pageData(); track e.id) {
-        <tr>
-          <td class="col-id">{{ e.id }}</td>
+        <tr>          
           <td>{{ e.codigo }}</td>
           <td class="text-ellipsis" title="{{ e.descripcion }}">{{ e.descripcion }}</td>
           <td class="col-estado">
@@ -49,7 +46,7 @@
               <span class="dot"></span> {{ e.estado }}
             </span>
           </td>
-          <td class="col-fecha">{{ e.fechaAlta || '—' }}</td>
+          <td class="col-fecha">{{ e.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</td>
           <td class="col-actions">
             <button class="icon" title="Editar" (click)="edit(e)" aria-label="Editar">
               <!-- lápiz -->

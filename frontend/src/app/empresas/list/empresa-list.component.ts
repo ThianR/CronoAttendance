@@ -1,52 +1,64 @@
-// src/app/empresas/list/empresa-list.component.ts
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { startWith } from 'rxjs/operators';
+
+import { DatePipe } from '@angular/common';
 import { Empresa } from '../../models/empresa';
 import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
   selector: 'app-empresa-list',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, RouterLink],
+  imports: [ReactiveFormsModule, FormsModule, DatePipe],
   templateUrl: './empresa-list.component.html',
 })
 export class EmpresaListComponent implements OnInit {
-  // inyección tipada (evita "unknown")
   private svc: EmpresaService = inject(EmpresaService);
   private router: Router = inject(Router);
   private fb: FormBuilder = inject(FormBuilder);
 
-  // datos
   empresas = signal<Empresa[]>([]);
 
-  // filtros
+  // Filtros (form)
   filtroForm = this.fb.nonNullable.group({
     codigo: [''],
     descripcion: [''],
     estado: ['' as '' | 'ACTIVO' | 'INACTIVO'],
   });
 
-  // paginación
+  // Filtros como SIGNAL (clave para que el computed reaccione)
+  filtros = toSignal(
+    this.filtroForm.valueChanges.pipe(startWith(this.filtroForm.getRawValue())),
+    { initialValue: this.filtroForm.getRawValue() }
+  );
+
+  // Paginación
   page = signal<number>(1);
-  pageSize = signal<number>(20);
+  pageSize = signal<number>(10);
   pageSizeOptions: number[] = [10, 20, 50];
 
-  // lista filtrada
+  // Lista filtrada (reacciona a filtros + datos)
   filtradas = computed<Empresa[]>(() => {
-    const { codigo, descripcion, estado } = this.filtroForm.getRawValue();
-    const cod = (codigo || '').toLowerCase();
-    const des = (descripcion || '').toLowerCase();
-    const est = (estado || '').toUpperCase();
-    return this.empresas().filter(
-      (e) =>
-        (!cod || e.codigo.toLowerCase().includes(cod)) &&
-        (!des || e.descripcion.toLowerCase().includes(des)) &&
-        (!est || e.estado === (est as 'ACTIVO' | 'INACTIVO'))
-    );
+    const f = this.filtros();
+    const cod = (f.codigo || '').toLowerCase();
+    const des = (f.descripcion || '').toLowerCase();
+    const est = (f.estado || '').toUpperCase();
+
+    return this.empresas().filter((e) => {
+      const c = String(e.codigo ?? '').toLowerCase();
+      const d = String(e.descripcion ?? '').toLowerCase();
+      const s = String(e.estado ?? '').toUpperCase();
+      return (
+        (!cod || c.includes(cod)) &&
+        (!des || d.includes(des)) &&
+        (!est || s === est)
+      );
+    });
   });
 
-  // página actual
+  // Página actual
   pageData = computed<Empresa[]>(() => {
     const p = this.page();
     const size = this.pageSize();
@@ -60,7 +72,6 @@ export class EmpresaListComponent implements OnInit {
 
   ngOnInit() {
     this.load();
-    this.filtroForm.valueChanges.subscribe(() => this.page.set(1));
   }
 
   load() {
@@ -83,7 +94,7 @@ export class EmpresaListComponent implements OnInit {
     }
   }
 
-  // paginación
+  // Paginación
   goTo(p: number) {
     this.page.set(Math.min(Math.max(1, p), this.totalPages()));
   }
