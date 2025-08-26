@@ -69,12 +69,12 @@
       <version>6.21.2</version>
     </dependency>
 
-    <!-- Spring Security -->
+    <!-- Spring Security 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-
+-->
     <!-- JWT support -->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
