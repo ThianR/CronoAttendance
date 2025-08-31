@@ -4,6 +4,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, finalize } from 'rxjs/operators';
 import * as XLSX from 'xlsx';
+import { UiService } from '../../shared/ui/ui.service';
 
 import { Empresa } from '../../models/empresa';
 import { EmpresaService, PageResponse } from '../../services/empresa.service';
@@ -18,6 +19,7 @@ export class EmpresaListComponent implements OnInit {
   private svc: EmpresaService = inject(EmpresaService);
   private router: Router = inject(Router);
   private fb: FormBuilder = inject(FormBuilder);
+  private ui = inject(UiService);
 
   // estado
   loading = signal(true);
@@ -73,11 +75,29 @@ export class EmpresaListComponent implements OnInit {
   edit(e: Empresa) {
     this.router.navigate(['/empresas/editar', e.id]);
   }
-  remove(e: Empresa) {
+  async remove(e: Empresa) {
     if (!e.id) return;
-    if (confirm(`¿Borrar empresa "${e.descripcion}"?`)) {
-      this.svc.delete(e.id).subscribe(() => this.loadPage());
-    }
+    const ok = await this.ui.confirm({
+      title: 'Borrar empresa',
+      message: `¿Seguro que deseas borrar “${e.descripcion}” (código ${e.codigo})?`,
+      acceptText: 'Sí, borrar',
+      cancelText: 'Cancelar',
+    });
+    if (!ok) return;
+
+    this.svc.delete(e.id).subscribe({
+      next: () => {
+        this.ui.toast({
+          type: 'success',
+          title: 'Eliminado',
+          message: 'Empresa borrada correctamente',
+        });
+        this.loadPage();
+      },
+      error: () => {
+        // el interceptor ya mostró un toast de error; aquí podrías sumar detalle si quieres
+      },
+    });
   }
 
   // export (exporta la página visible)
