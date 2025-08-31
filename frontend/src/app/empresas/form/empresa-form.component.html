@@ -29,7 +29,7 @@
     <button type="submit" [disabled]="form.invalid || cargando">
       @if (cargando) { Guardando… } @else { Guardar }
     </button>
-    <button type="button" (click)="cancelar()">Cancelar</button>
+    <button type="cancel" (click)="cancelar()">Cancelar</button>
   </div>
 <!-- Metadatos del entity (solo lectura) -->
 @if (f.fechaAlta.value || f.fechaMod.value) {

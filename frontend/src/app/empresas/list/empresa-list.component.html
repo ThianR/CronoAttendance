@@ -2,11 +2,8 @@
   <div class="title">Empresas</div>
 
   <div class="actions">
-    <button class="btn ghost" (click)="exportCSV(false)" title="Exportar CSV (lista filtrada)">CSV</button>
-    <button class="btn ghost" (click)="exportExcel(false)" title="Exportar Excel (lista filtrada)">Excel</button>
-    <!-- Si quieres solo la página, usa true -->
-    <!-- <button class="btn ghost" (click)="exportCSV(true)">CSV (página)</button> -->
-    <!-- <button class="btn ghost" (click)="exportExcel(true)">Excel (página)</button> -->
+    <button class="btn ghost" (click)="exportCSV()" [disabled]="loading() || !empresas().length">CSV</button>
+    <button class="btn ghost" (click)="exportExcel()" [disabled]="loading() || !empresas().length">Excel</button>
 
     <button class="btn primary" (click)="create()">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 11V6a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 1 1 0-2h5z"/></svg>
@@ -28,13 +25,13 @@
       <!-- fila de filtros -->
       <tr class="filters">        
         <th>
-          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.codigo" />
+          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.codigo" [disabled]="loading()" />
         </th>
         <th>
-          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.descripcion" />
+          <input type="text" placeholder="Buscar…" [formControl]="filtroForm.controls.descripcion" [disabled]="loading()" />
         </th>
         <th>
-          <select [formControl]="filtroForm.controls.estado">
+          <select [formControl]="filtroForm.controls.estado"  [disabled]="loading()">
             <option value="">Todos</option>
             <option value="ACTIVO">ACTIVO</option>
             <option value="INACTIVO">INACTIVO</option>
@@ -45,50 +42,61 @@
       </tr>
     </thead>
 
-    <tbody>
-      @for (e of pageData(); track e.id) {
-        <tr>          
-          <td>{{ e.codigo }}</td>
-          <td class="text-ellipsis" title="{{ e.descripcion }}">{{ e.descripcion }}</td>
-          <td class="col-estado">
-            <span class="status" [class.ok]="e.estado==='ACTIVO'" [class.bad]="e.estado==='INACTIVO'">
-              <span class="dot"></span> {{ e.estado }}
-            </span>
-          </td>
-          <td class="col-fecha">{{ e.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-          <td class="col-actions">
-            <button class="icon" title="Editar" (click)="edit(e)" aria-label="Editar">
-              <!-- lápiz -->
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92L14.06 8.52l.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
-              </svg>
-            </button>
-            <button class="icon danger" title="Borrar" (click)="remove(e)" aria-label="Borrar">
-              <!-- basurero -->
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 7h12l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7zm9-3h-1.5l-.5-1h-4l-.5 1H7v2h10V4z"/>
-              </svg>
-            </button>
-          </td>
-        </tr>
-      } @empty {
-        <tr><td colspan="6" class="empty">Sin resultados</td></tr>
-      }
-    </tbody>
+<tbody>
+  @if (loading()) {
+    @for (_ of skeletonRows(); track $index) {
+      <tr class="skeleton-row">
+        <!-- 5 columnas para que coincida con el thead -->
+        <td><span class="sk"></span></td>
+        <td><span class="sk w-80"></span></td>
+        <td class="col-estado"><span class="sk sk-badge"></span></td>
+        <td class="col-fecha"><span class="sk w-60"></span></td>
+        <td class="col-actions">
+          <span class="sk sk-icon"></span>
+          <span class="sk sk-icon"></span>
+        </td>
+      </tr>
+    }
+  } @else {
+    @for (e of empresas(); track e.id) {
+      <tr>
+        <td>{{ e.codigo }}</td>
+        <td class="text-ellipsis" title="{{ e.descripcion }}">{{ e.descripcion }}</td>
+        <td class="col-estado">
+          <span class="status" [class.ok]="e.estado==='ACTIVO'" [class.bad]="e.estado==='INACTIVO'">
+            <span class="dot"></span> {{ e.estado }}
+          </span>
+        </td>
+        <td class="col-fecha">{{ e.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td class="col-actions">
+          <!-- acciones -->
+          <button class="icon" title="Editar" (click)="edit(e)" aria-label="Editar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
+          </button>
+          <button class="icon danger" title="Borrar" (click)="remove(e)" aria-label="Borrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7zM15 4h-6l-1 2h8z"/></svg>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td colspan="5" class="empty">Sin resultados</td></tr>
+    }
+  }
+</tbody>
+
   </table>
 </div>
 
-<!-- footer de paginación -->
 <div class="pager">
   <div class="count">
-    Registros: {{ filtradas().length }}
+    Registros: {{ total() }}
   </div>
   <div class="controls">
     <button class="btn" (click)="goTo(1)" [disabled]="page()===1">«</button>
     <button class="btn" (click)="prev()" [disabled]="page()===1">‹</button>
-    <span>Pág. {{ page() }} / {{ totalPages() }}</span>
-    <button class="btn" (click)="next()" [disabled]="page()===totalPages()">›</button>
-    <button class="btn" (click)="goTo(totalPages())" [disabled]="page()===totalPages()">»</button>
+    <span>Pág. {{ page() }} / {{ totalPages }}</span>
+    <button class="btn" (click)="next()" [disabled]="page()===totalPages">›</button>
+    <button class="btn" (click)="goTo(totalPages)" [disabled]="page()===totalPages">»</button>
 
     <label class="ps">
       <span>Filas:</span>
